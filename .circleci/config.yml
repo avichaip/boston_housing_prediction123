@@ -1,0 +1,55 @@
+# Python CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-python/ for more details
+#
+version: 2
+jobs:
+  python_learning_environment:
+    environment:
+      level: lesson-2 
+    # specity what will execute steps
+    docker:
+      - image: circleci/python:3.8:10
+        # auth:
+          # Project Environmental variables
+          # username: $DOCKERHUB_USER
+          # password: $DOCKERHUB_PASSWORD
+    
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: install dependencies
+          command: |
+            python3 -m venv venv
+            source venv/bin/activate
+            make install
+            # Install and setup hadolint
+            wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
+                chmod +x /bin/hadolint
+
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
+
+      - run:
+          name: run lint
+          command: |
+            source venv/bin/activate
+            make lint
+            echo "$level is moving"
+
+workflows:
+    "python_env_workflow":
+        jobs:
+          - python_learning_environment
+           
+
