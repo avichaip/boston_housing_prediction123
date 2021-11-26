@@ -10,10 +10,10 @@ jobs:
     # specity what will execute steps
     docker:
       - image: cimg/python:3.10.0-node
-        # auth:
-          # Project Environmental variables
-          # username: $DOCKERHUB_USER
-          # password: $DOCKERHUB_PASSWORD
+        auth:
+          Project Environmental variables
+          username: $dockerhub_userame
+          password: $dockerhub_password
     
     steps:
       - checkout
@@ -51,6 +51,8 @@ workflows:
   version: 2
   "python_env_workflow":
       jobs:
-        - python_learning_environment
+        - python_learning_environment:
+            context:
+              - docker credentials
            
 
