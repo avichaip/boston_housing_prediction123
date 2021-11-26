@@ -2,10 +2,10 @@ version: 2
 jobs:
   python_learning_environment:
     environment:
-    - CIRCLE_COMPARE_URL: https://github.com/Wach-E/setup-demo/compare/3311da1aa5570c8c687feb16387cece08d32a0b8...3311da1aa5570c8c687feb16387cece08d32a0b8
+    - CIRCLE_COMPARE_URL: https://github.com/Wach-E/setup-demo/compare/391befdc9ae8b6301113ada117a1af5c72f8f3ae...391befdc9ae8b6301113ada117a1af5c72f8f3ae
     - level: lesson-2
     docker:
-    - image: cimg/python:3.8:10
+    - image: ciricl/python:3.10.0-node
     steps:
     - checkout
     - restore_cache:
