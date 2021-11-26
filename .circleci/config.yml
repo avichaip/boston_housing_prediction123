@@ -12,7 +12,7 @@ jobs:
       - image: cimg/python:3.10.0-node
         auth:
           # Project Environmental variables
-          username: $dockerhub_userame
+          username: $dockerhub_username
           password: $dockerhub_password
     
     steps:
