@@ -18,7 +18,7 @@ run-circleci-local:
 	# circleci local execute
 
 lint:
-	hadolint setup-demo/Dockerfile
-	pylint --disable=R,C,W1203 setup-demo/**.py
+	hadolint Dockerfile
+	pylint --disable=R,C,W1203 ./**.py
 
 all: create install lint
