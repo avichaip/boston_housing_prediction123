@@ -48,8 +48,9 @@ jobs:
             echo "$level is moving"
 
 workflows:
-    "python_env_workflow":
-        jobs:
-          - python_learning_environment
+  version: 2
+  "python_env_workflow":
+      jobs:
+        - python_learning_environment
            
 
