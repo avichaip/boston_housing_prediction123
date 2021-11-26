@@ -9,7 +9,7 @@ jobs:
       level: lesson-2 
     # specity what will execute steps
     docker:
-      - image: circleci/python:3.8:10
+      - image: cimg/python:3.8:10
         # auth:
           # Project Environmental variables
           # username: $DOCKERHUB_USER
