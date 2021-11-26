@@ -18,4 +18,4 @@ lint:
 	hadolint setup-demo/Dockerfile
 	pylint --disable=R,C,W1203 setup-demo/**.py
 
-all: install lint
+all: setup install lint
