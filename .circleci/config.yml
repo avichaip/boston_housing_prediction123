@@ -32,8 +32,10 @@ jobs:
             source venv/bin/activate
             make install
             # Install and setup hadolint
-            wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
-                sudo chmod +x /bin/hadolint
+            wget https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64
+            mv hadolint-Linux-x86_64 hadolint
+            chmod +x hadolint
+            mv hadolint /usr/local/bin/
 
       - save_cache:
           paths:
