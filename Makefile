@@ -1,6 +1,6 @@
-setup:
+create:
 	python3 -m venv setup_env
-	. setup_env/bin/activate
+	echo "virtual env, setup_env created. Activate it !"
 
 install:
 	pip3 install --upgrade pip &&\
@@ -18,4 +18,4 @@ lint:
 	hadolint setup-demo/Dockerfile
 	pylint --disable=R,C,W1203 setup-demo/**.py
 
-all: setup install lint
+all: create install lint
