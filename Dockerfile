@@ -8,10 +8,10 @@ COPY ./ /app/
 
 # Install packages from requirements.txt
 
-# RUN pip3 install --upgrade pip &&\
-#     pip3 install --trusted-host pypi.python.org -r requirements.txt
+RUN pip3 install --upgrade pip &&\
+    pip3 install --trusted-host pypi.python.org -r requirements.txt
 
 # Expose container port
 EXPOSE 80
 
-CMD [ "make" "init_setup" ]
+CMD [ "python3", "app.py" ]

@@ -11,7 +11,7 @@ jobs:
     docker:
       - image: cimg/python:3.10.0-node
         auth:
-          # Project Environmental variables
+          # Environmental variables set from $context_name context
           username: $dockerhub_username
           password: $dockerhub_password
     
@@ -27,38 +27,7 @@ jobs:
             docker tag $imageName $dockerhub_username/$imageName
             echo "$dockerhub_password" | docker login --username $dockerhub_username --password-stdin
             docker push $dockerhub_username/$imageName
-
-      # Download and cache dependencies
-      # - restore_cache:
-      #     keys:
-      #       - v1-dependencies-{{ checksum "requirements.txt" }}
-      #       # fallback to using the latest cache if no exact match is found
-      #       - v1-dependencies-
-
-
-      
-      # - run:
-      #     name: install dependencies
-      #     command: |
-      #       make init_setup
-      #       # Install and setup hadolint
-      #       wget https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64
-      #       mv hadolint-Linux-x86_64 hadolint
-      #       chmod +x hadolint
-      #       sudo mv hadolint /usr/local/bin/hadolint
-
-      # - save_cache:
-      #     paths:
-      #       - ./setup_env
-      #     key: v1-dependencies-{{ checksum "requirements.txt" }}
-
-      # - run:
-      #     name: run lint
-      #     command: |
-      #       make activate
-      #       make lint
-      #       echo "$level shows $stack is dope!"
-
+    
 workflows:
   version: 2
   "python_env_workflow":

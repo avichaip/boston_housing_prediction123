@@ -1,8 +1,8 @@
 create:
-	python3 -m venv setup_env
+	python3 -m venv venv
 
 activate:
-	. setup_env/bin/activate
+	. venv/bin/activate
 
 install:
 	pip3 install --upgrade pip &&\
@@ -11,12 +11,6 @@ install:
 validate-circleci:
 	# See https://circleci.com/docs/2.0/local-cli/#processing-a-config
 	circleci config validate
-
-# run-circleci-local:
-# 	# See https://circleci.com/docs/2.0/local-cli/#running-a-job
-# 	circleci config process .circleci/config.yml > process.yml
-# 	circleci local execute -c process.yml
-# 	# circleci local execute
 
 lint:
 	hadolint Dockerfile
