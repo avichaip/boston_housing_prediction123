@@ -21,21 +21,12 @@ jobs:
           version: 19.03.13
           docker_layer_caching: true
       - run:
-          name: Build image for ML environment
+          name: Build, tag and push ML environment image
           command: |
             docker build -t $imageName .
-      - run:
-          name: Run container application
-          command: |
-            docker image ls  
-            docker run -it $imageName bash
-          
-      # - run: 
-      #     name: Push docker image to dockerhub
-      #     command: |
-      #       docker tag $imageName $dockerhub_username/$imageName
-      #       echo "$dockerhub_password" | docker login --username $dockerhub_username --password-stdin
-      #       docker push $dockerhub_username/$imageName
+            docker tag $imageName $dockerhub_username/$imageName
+            echo "$dockerhub_password" | docker login --username $dockerhub_username --password-stdin
+            docker push $dockerhub_username/$imageName
 
       # Download and cache dependencies
       # - restore_cache:
