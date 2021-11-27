@@ -6,7 +6,7 @@ version: 2
 jobs:
   python_learning_environment:
     environment:
-      imageName: DevOps_Lesson2 
+      imageName: devops_Lesson_two 
     # specity what will execute steps
     docker:
       - image: cimg/python:3.10.0-node
