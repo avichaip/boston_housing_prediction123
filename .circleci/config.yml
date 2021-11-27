@@ -6,8 +6,7 @@ version: 2
 jobs:
   python_learning_environment:
     environment:
-      level: Lesson-2
-      stack: DevOps 
+      imageName: DevOps_Lesson2 
     # specity what will execute steps
     docker:
       - image: cimg/python:3.10.0-node
@@ -18,35 +17,56 @@ jobs:
     
     steps:
       - checkout
+      - setup_remote_docker:
+          version: 19.03.13
+          docker_layer_caching: true
+      - run:
+          name: Build image for ML environment
+          command: |
+            docker build -t $imageName .
+      - run:
+          name: Run container application
+          command: |
+            docker image ls  
+            docker run -it $imageName bash
+          
+      # - run: 
+      #     name: Push docker image to dockerhub
+      #     command: |
+      #       docker tag $imageName $dockerhub_username/$imageName
+      #       echo "$dockerhub_password" | docker login --username $dockerhub_username --password-stdin
+      #       docker push $dockerhub_username/$imageName
 
       # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "requirements.txt" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+      # - restore_cache:
+      #     keys:
+      #       - v1-dependencies-{{ checksum "requirements.txt" }}
+      #       # fallback to using the latest cache if no exact match is found
+      #       - v1-dependencies-
 
-      - run:
-          name: install dependencies
-          command: |
-            make init_setup
-            # Install and setup hadolint
-            wget https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64
-            mv hadolint-Linux-x86_64 hadolint
-            chmod +x hadolint
-            sudo mv hadolint /usr/local/bin/hadolint
 
-      - save_cache:
-          paths:
-            - ./setup_env
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
+      
+      # - run:
+      #     name: install dependencies
+      #     command: |
+      #       make init_setup
+      #       # Install and setup hadolint
+      #       wget https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64
+      #       mv hadolint-Linux-x86_64 hadolint
+      #       chmod +x hadolint
+      #       sudo mv hadolint /usr/local/bin/hadolint
 
-      - run:
-          name: run lint
-          command: |
-            make activate
-            make lint
-            echo "$level shows $stack is dope!"
+      # - save_cache:
+      #     paths:
+      #       - ./setup_env
+      #     key: v1-dependencies-{{ checksum "requirements.txt" }}
+
+      # - run:
+      #     name: run lint
+      #     command: |
+      #       make activate
+      #       make lint
+      #       echo "$level shows $stack is dope!"
 
 workflows:
   version: 2

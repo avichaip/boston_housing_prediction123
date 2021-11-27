@@ -1,17 +1,17 @@
-FROM python:3.8
+FROM python:3.10
 
+# Working Directory
 WORKDIR /app
 
-COPY ./ /app/
-## Complete Step 2:
 # Copy source code to working directory
+COPY ./ /app/
 
-## Complete Step 3:
 # Install packages from requirements.txt
-# hadolint ignore=DL3013
 
-## Complete Step 4:
-# Expose port 80
+# RUN pip3 install --upgrade pip &&\
+#     pip3 install --trusted-host pypi.python.org -r requirements.txt
 
-## Complete Step 5:
-# Run app.py at container launch
+# Expose container port
+EXPOSE 80
+
+CMD [ "make" "init_setup" ]
