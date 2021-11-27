@@ -6,7 +6,8 @@ version: 2
 jobs:
   python_learning_environment:
     environment:
-      level: lesson-2 
+      level: Lesson-2
+      stack: DevOps 
     # specity what will execute steps
     docker:
       - image: cimg/python:3.10.0-node
@@ -28,9 +29,7 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            python3 -m venv venv
-            source venv/bin/activate
-            make install
+            make init_setup
             # Install and setup hadolint
             wget https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64
             mv hadolint-Linux-x86_64 hadolint
@@ -39,15 +38,15 @@ jobs:
 
       - save_cache:
           paths:
-            - ./venv
+            - ./setup_env
           key: v1-dependencies-{{ checksum "requirements.txt" }}
 
       - run:
           name: run lint
           command: |
-            source venv/bin/activate
+            make activate
             make lint
-            echo "$level is moving"
+            echo "$level shows $stack is dope!"
 
 workflows:
   version: 2
