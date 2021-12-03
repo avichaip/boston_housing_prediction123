@@ -11,8 +11,9 @@ Vagrant.configure("2") do |config|
     end
   
     # Network Settings
-    config.vm.network "forwarded_port", guest: 80, host: 8080
-    config.vm.network "public_network", ip: "192.168.37.44"
+    # config.vm.network "forwarded_port", guest: 80, host: 8080
+    config.vm.network "forwarded_port", guest: 5000, host: 4200
+    config.vm.network "public_network"
   
     # Provision Settings
     config.vm.provision "shell", path: "bootstrap.sh"
