@@ -1,79 +1,26 @@
-# Python CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-python/ for more details
-#
-version: 2
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  lint_files:
-    environment:
-      level: lint-demo
+  say-hello:
+    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
-      - image: cimg/python:3.10.0-node
-        auth:
-            # Environmental variables set from $context_name context
-            username: $dockerhub_username
-            password: $dockerhub_password
+      - image: cimg/base:stable
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
 
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "requirements.txt" }}
-            - v1-dependencies-
-      - run:
-          name: install dependencies
-          command: |
-            make init_setup
-            # Install and setup hadolint
-            wget -O hadolint https://github.com/hadolint/hadolint/releases/download/v2.8.0/hadolint-Linux-x86_64
-            sudo mv hadolint /usr/local/bin/hadolint
-            sudo chmod +x /usr/local/bin/hadolint
-      - save_cache:
-          paths:
-            - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
-      - run:
-          name: run lint
-          command: |
-            # . venv/bin/activate
-            make lint
-            echo "$level worked champ!"
-  
-  flask_app:
-    environment:
-      imageName: devops_lesson_two 
-    # specity what will execute steps
-    docker:
-      - image: cimg/python:3.10.0-node
-        auth:
-          # Environmental variables set from $context_name context
-          username: $dockerhub_username
-          password: $dockerhub_password
-    
-    steps:
-      - checkout
-      - setup_remote_docker:
-          version: 19.03.13
-          docker_layer_caching: true
-      - run:
-          name: Build, tag and push ML environment image
-          command: |
-            docker build -t $imageName .
-            docker tag $imageName $dockerhub_username/$imageName
-            echo "$dockerhub_password" | docker login --username $dockerhub_username --password-stdin
-            docker push $dockerhub_username/$imageName
-    
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  version: 2
-  "python_env_workflow":
-      jobs:
-        - lint_files:
-            context:
-              - docker credentials
-        - flask_app:
-            requires:
-              - lint_files
-            context:
-              - docker credentials
-           
-
+  say-hello-workflow:
+    jobs:
+      - say-hello
